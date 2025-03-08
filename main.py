@@ -5,8 +5,8 @@ from linebot.models import PostbackEvent, TextSendMessage
 
 app = Flask(__name__)
 
-TOKEN = ''
-SECRET = ''
+TOKEN = 'yr0jTF4gnZtOxYpsELwA6r6YE2I5tozZlgGl9DgdpcvrjsuTgeubSgBEpmfnyCOHSFhesy3IAblcWP3grpBtKW8ogz/J109jAWU0NJXEd0dH0bkE0gr84ONdQt83gk59YvkNNe3V7s2+uqMDLYOlGAdB04t89/1O/w1cDnyilFU='
+SECRET = 'ef9cdd7b06f601f2118b9b8d84786910'
 
 line_bot_api = LineBotApi(TOKEN)
 whhandler = WebhookHandler(SECRET)
