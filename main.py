@@ -18,6 +18,7 @@ def hello():
 
 @whhandler.add(MessageEvent,message=TextMessage)
 def handle_message(event):
+    line_bot_api.reply_message(event.reply_token, event.message.text)
     if "買" in event.message.text:
         line_bot_api.reply_message(event.reply_token, message.create_product_bubble_msg())
 
