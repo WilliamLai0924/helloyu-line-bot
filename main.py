@@ -50,8 +50,9 @@ def handle_postback(event):
 def call_api(url:str):
     requests.get(url)
 
+url = 'https://helloyu-line-bot.onrender.com/api/hello'
+scheduler.add_job(call_api,'interval',minutes=12,args=[url])
+scheduler.start()
+
 if __name__ == '__main__':
-    url = 'https://helloyu-line-bot.onrender.com/api/hello'
-    scheduler.add_job(call_api,'interval',minutes=12,args=[url])
-    scheduler.start()
     app.run(debug=True)
