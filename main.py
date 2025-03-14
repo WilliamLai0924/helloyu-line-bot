@@ -3,9 +3,13 @@ from flask import Flask, abort, jsonify, request
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import PostbackEvent, TextSendMessage, MessageEvent, TextMessage
+from apscheduler.schedulers.background import BackgroundScheduler
+
 import message
+import requests
 
 app = Flask(__name__)
+scheduler = BackgroundScheduler()
 
 TOKEN = 'yr0jTF4gnZtOxYpsELwA6r6YE2I5tozZlgGl9DgdpcvrjsuTgeubSgBEpmfnyCOHSFhesy3IAblcWP3grpBtKW8ogz/J109jAWU0NJXEd0dH0bkE0gr84ONdQt83gk59YvkNNe3V7s2+uqMDLYOlGAdB04t89/1O/w1cDnyilFU='
 SECRET = 'ef9cdd7b06f601f2118b9b8d84786910'
@@ -43,6 +47,11 @@ def handle_message(event):
 def handle_postback(event):
     line_bot_api.reply_message(event.reply_token, TextSendMessage(text=str(event.postback)))
 
+def call_api(url:str):
+    requests.get(url)
 
 if __name__ == '__main__':
+    url = 'https://helloyu-line-bot.onrender.com/api/hello'
+    scheduler.add_job(call_api,'interval',minutes=12,args=[url])
+    scheduler.start()
     app.run(debug=True)
