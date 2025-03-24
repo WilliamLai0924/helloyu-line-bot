@@ -42,10 +42,12 @@ def handle_message(event):
     # line_bot_api.reply_message(event.reply_token, TextSendMessage(text=event.message.text))
     if "買" in event.message.text:
         line_bot_api.reply_message(event.reply_token, message.create_product_bubble_msg())
+    if "加入店主" in event.message.text:
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=str(f'{event}')))
 
 @whhandler.add(PostbackEvent)
 def handle_postback(event):
-    line_bot_api.reply_message(event.reply_token, TextSendMessage(text=str(event.postback)))
+    line_bot_api.reply_message(event.reply_token, TextSendMessage(text=str(f'{event.postback}')))
 
 def call_api(url:str):
     requests.get(url)
