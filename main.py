@@ -7,12 +7,21 @@ from apscheduler.schedulers.background import BackgroundScheduler
 
 import message
 import requests
+import configparser
+import os
 
 app = Flask(__name__)
 scheduler = BackgroundScheduler()
 
-TOKEN = 'yr0jTF4gnZtOxYpsELwA6r6YE2I5tozZlgGl9DgdpcvrjsuTgeubSgBEpmfnyCOHSFhesy3IAblcWP3grpBtKW8ogz/J109jAWU0NJXEd0dH0bkE0gr84ONdQt83gk59YvkNNe3V7s2+uqMDLYOlGAdB04t89/1O/w1cDnyilFU='
-SECRET = 'ef9cdd7b06f601f2118b9b8d84786910'
+config = configparser.ConfigParser()
+config.read('config.ini')
+TOKEN = os.environ.get('WALLE_TOKEN', None)
+SECRET = os.environ.get('WALLE_SECRET', None)
+
+if TOKEN is None:
+    TOKEN = config['linebot']['token']
+if SECRET is None:
+    SECRET = config['linebot']['secret']
 
 line_bot_api = LineBotApi(TOKEN)
 whhandler = WebhookHandler(SECRET)
