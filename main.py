@@ -58,7 +58,7 @@ def handle_message(event):
         )
         for i in range(len(products)):
             flex.contents.contents[i].body.contents = [
-                {"type": "text", "text": products[i]['description'], "weight": "bold", "size": "sm", "color": "#888888", "wrap": 1},
+                {"type": "text", "text": products[i]['description'], "weight": "bold", "size": "sm", "color": "#888888", "wrap": True},
                 {"type": "text", "text": products[i]['name'], "weight": "bold", "size": "xl"},
                 {"type": "text", "text": products[i]['price'], "color": "#888888", "size": "sm"}
             ]
