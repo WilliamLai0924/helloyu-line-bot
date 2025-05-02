@@ -1,11 +1,12 @@
 def create_product_bubble_msg(products):
     flex_contents = []
     for i in range(len(products)):
+        picid = products[i]['images'][0].split('/')[-2]
         content = {
             "type":"bubble",
             "hero":{
                 "type":"image",
-                "url":products[i]['images'][0],
+                "url":f'https://drive.google.com/uc?export=view&id={picid}',
                 "size":"full",
                 "aspectRatio":"20:13",
                 "aspectMode":"cover"
