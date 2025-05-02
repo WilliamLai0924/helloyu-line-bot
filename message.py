@@ -1,5 +1,3 @@
-from linebot.models import FlexSendMessage
-
 def create_product_bubble_msg(products):
     flex_contents = []
     for i in range(len(products)):
@@ -16,8 +14,8 @@ def create_product_bubble_msg(products):
                 "type":"box",
                 "layout":"vertical",
                 "contnets":[
-                    {"type": "text", "text": f'\"{products[i]['name']}\"', "weight": "bold", "size": "xl"},
-                    {"type": "text", "text": f'\"{products[i]['price']}\"', "color": "#888888", "size": "sm"}
+                    {"type": "text", "text": products[i]['name'], "weight": "bold", "size": "xl"},
+                    {"type": "text", "text": products[i]['price'], "color": "#888888", "size": "sm"}
                 ]
             },
             "footer":{
@@ -37,8 +35,5 @@ def create_product_bubble_msg(products):
             }
         }
         flex_contents.append(content)
-
-    return FlexSendMessage(
-        alt_text="商品資訊",
-        contents={"type":"carousel", "contents":flex_contents}
-    )
+    
+    return flex_contents
