@@ -3,15 +3,13 @@ from flask import Flask, abort, jsonify, request
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import PostbackEvent, TextSendMessage, MessageEvent, TextMessage
-from apscheduler.schedulers.background import BackgroundScheduler
 
+import adapter
 import message
-import requests
 import configparser
 import os
 
 app = Flask(__name__)
-scheduler = BackgroundScheduler()
 
 config = configparser.ConfigParser()
 config.read('config.ini')
@@ -50,20 +48,14 @@ def callback():
 def handle_message(event):
     # line_bot_api.reply_message(event.reply_token, TextSendMessage(text=event.message.text))
     if "買" in event.message.text:
-        line_bot_api.reply_message(event.reply_token, message.create_product_bubble_msg())
+        products = adapter.query_products()
+        line_bot_api.reply_message(event.reply_token, message.create_product_bubble_msg(products))
     if "加入店主" in event.message.text:
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=str(f'{event}')))
 
 @whhandler.add(PostbackEvent)
 def handle_postback(event):
     line_bot_api.reply_message(event.reply_token, TextSendMessage(text=str(f'{event.postback}')))
-
-def call_api(url:str):
-    requests.get(url)
-
-url = 'https://helloyu-line-bot.onrender.com/api/hello'
-scheduler.add_job(call_api,'interval',minutes=12,args=[url])
-scheduler.start()
 
 if __name__ == '__main__':
     app.run(debug=True)
