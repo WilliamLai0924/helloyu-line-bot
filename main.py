@@ -1,9 +1,9 @@
-from datetime import datetime
 from flask import Flask, abort, jsonify, request
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import PostbackEvent, TextSendMessage, MessageEvent, TextMessage
 from linebot.models import FlexSendMessage
+from pathlib import Path
 
 import adapter
 import message
@@ -48,7 +48,6 @@ def callback():
 
 @whhandler.add(MessageEvent,message=TextMessage)
 def handle_message(event):
-    # line_bot_api.reply_message(event.reply_token, TextSendMessage(text=event.message.text))
     if "買" in event.message.text:
         products = adapter.query_products()
         msg = message.create_product_bubble_msg(products)
@@ -58,7 +57,7 @@ def handle_message(event):
         )
         for i in range(len(products)):
             flex.contents.contents[i].body.contents = [
-                {"type": "text", "text": products[i]['description'], "weight": "bold", "size": "sm", "color": "#888888", "wrap": True},
+                {"type": "text", "text": Path(products[i]['description']).stem, "weight": "bold", "size": "sm", "color": "#888888", "wrap": True},
                 {"type": "text", "text": products[i]['name'], "weight": "bold", "size": "xl"},
                 {"type": "text", "text": products[i]['price'], "color": "#888888", "size": "sm"}
             ]
